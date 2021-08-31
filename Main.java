@@ -5,7 +5,7 @@ public class Main {
         Person man2 = new Person();
 
         man1.setName("Bob");
-        man2.setName("Chacky");
+        man2.setName("Chucky");
 
         man1.setAge(12);
         man2.setAge(14);
