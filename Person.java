@@ -47,15 +47,17 @@ public class Person {
 
     // проверяем попали ли в цель или промахнулись
     // наносим удар и отнимаем хп у цели
-    int kick(Person man) {
+    void kick(Person man) {
         double hitPer = this.agility + Math.random();
+        System.out.println(this.name + " бьет!");
         if (hitPer > 0.5) {
             System.out.println("Попал!");
             man.hp = (byte) (man.hp - this.power);
-            return man.hp;
+            if (man.hp <=0 )  System.out.println(man.name + " теряет сознание!");
+            else System.out.println("у " + man.name + "'а осталось " + man.hp + "хп");
         } else {
             System.out.println("Мимо!");
-            return man.hp;
+
         }
 
     }
