@@ -1,11 +1,11 @@
 public class Main {
-    public static void main(String[] args) {
+   public static void main(String[] args) {
 
         Person man1 = new Person();
         Person man2 = new Person();
 
-        man1.setName("Bob");
-        man2.setName("Chucky");
+        man1.setName("Bob"); // слабый и ловкий
+        man2.setName("Chucky"); // сильный и неуклюжий
 
         man1.setAge(12);
         man2.setAge(14);
@@ -37,26 +37,14 @@ public class Main {
         else System.out.println(man2.getName() + " ловчее");
 
         while (man1.getHP() >= 0 && man2.getHP() >= 0) {
+
             System.out.println(man1.getName() + " бьет!");
-            man1.hit();
-            if (man1.hit() == true) {
-                System.out.println("Попал!");
-                man1.kick(man2);
-            } else System.out.println("Промах!");
-
-
+            man1.kick(man2);
             System.out.println("у " + man2.getName() + "'а " + man2.getHP() + "хп");
-            if (man2.getHP() >= 0) {
-                System.out.println(man2.getName() + " бьет!");
-                man1.hit();
-                if (man2.hit() == true) {
-                    System.out.println("Попал!");
-                    man2.kick(man1);
 
-                } else System.out.println("Промах!");
-                System.out.println("у " + man1.getName() + "'а " + man1.getHP() + "хп");
-            } else break;
-
+            System.out.println(man2.getName() + " бьет!");
+            man2.kick(man1);
+            System.out.println("у " + man1.getName() + "'а " + man1.getHP() + "хп");
 
         }
         if (man1.getHP() <= 0) System.out.println(man2.getName() + " победил");
