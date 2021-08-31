@@ -1,9 +1,9 @@
 public class Person {
-    int age;
-    double agility;
-    int hp;
-    String name;
-    int power;
+    private int age;
+    private double agility;
+    private int hp;
+    private String name;
+    private int power;
 
     void setAge(int a) {
         this.age = a;
