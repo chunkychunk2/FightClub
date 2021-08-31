@@ -1,5 +1,5 @@
 public class Main {
-      public static void main(String[] args) {
+    public static void main(String[] args) {
 
         Person man1 = new Person();
         Person man2 = new Person();
@@ -23,16 +23,11 @@ public class Main {
         man1.areTheyEquals(man2);
         System.out.println("");
         int r = 1;
-        while (man1.getHP() >= 0 && man2.getHP() >= 0) {
-
+        while (man1.getHP() >= 0) {
             System.out.println("Раунд " + r);
-            System.out.println(man1.getName() + " бьет!");
             man1.kick(man2);
-            System.out.println("у " + man2.getName() + "'а " + man2.getHP() + "хп");
-
-            System.out.println(man2.getName() + " бьет!");
+            if (man2.getHP() <= 0) break;
             man2.kick(man1);
-            System.out.println("у " + man1.getName() + "'а " + man1.getHP() + "хп");
             r++;
             System.out.println();
         }
