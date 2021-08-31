@@ -44,15 +44,19 @@ public class Person {
     int getPower() {
         return this.power;
     }
+
+    // проверяем попали ли в цель или промахнулись
     // наносим удар и отнимаем хп у цели
     int kick(Person man) {
-        man.hp = (byte) (man.hp - this.power);
-        return man.hp;
-    }
-    // проверяем попали ли в цель или промахнулись
-    boolean hit() {
         double hitPer = this.agility + Math.random();
-        if (hitPer > 0.5) return true;
-        else return false;
+        if (hitPer > 0.5) {
+            System.out.println("Попал!");
+            man.hp = (byte) (man.hp - this.power);
+            return man.hp;
+        } else {
+            System.out.println("Мимо!");
+            return man.hp;
+        }
+
     }
 }
