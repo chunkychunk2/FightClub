@@ -45,21 +45,37 @@ public class Person {
         return this.power;
     }
 
-    // проверяем попали ли в цель или промахнулись
-    // наносим удар и отнимаем хп у цели
+    // бойцы по очереди наносят удар, пока кто нибудь не потеряет сознание
     void kick(Person man) {
-        double hitPer = this.agility + Math.random();
-        System.out.println(this.name + " бьет!");
-        if (hitPer > 0.5) {
-            System.out.println("Попал!");
-            man.hp = (byte) (man.hp - this.power);
-            if (man.hp <=0 )  System.out.println(man.name + " теряет сознание!");
-            else System.out.println("у " + man.name + "'а осталось " + man.hp + "хп");
-        } else {
-            System.out.println("Мимо!");
-
+        int r = 1;
+        while (this.hp >= 0) {
+            System.out.println("Раунд " + r);
+            double hitPer = this.agility + Math.random();
+            System.out.println(this.name + " бьет!");
+            if (hitPer > 0.5) {
+                System.out.println("Попал!");
+                man.hp = man.hp - this.power;
+                if (man.hp <= 0) System.out.println(man.name + " теряет сознание!");
+                else System.out.println("у " + man.name + "'а осталось " + man.hp + "хп");
+            } else {
+                System.out.println("Мимо!");
+            }
+            if (man.hp <= 0) break;
+            hitPer = man.agility + Math.random();
+            System.out.println(man.name + " бьет!");
+            if (hitPer > 0.5) {
+                System.out.println("Попал!");
+                this.hp = this.hp - man.power;
+                if (this.hp <= 0) System.out.println(this.name + " теряет сознание!");
+                else System.out.println("у " + this.name + "'а осталось " + this.hp + "хп");
+            } else {
+                System.out.println("Мимо!");
+            }
+            r++;
+            System.out.println("");
         }
-
+        if (this.hp <= 0) System.out.println("Вы проиграли");
+        else System.out.println("Вы победили");
     }
 
     void areTheyEquals(Person man) {
@@ -79,4 +95,6 @@ public class Person {
         else if (this.power > man.power) System.out.println(this.name + " сильнее");
         else System.out.println(man.name + " сильнее");
     }
+
+
 }
