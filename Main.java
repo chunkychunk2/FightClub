@@ -1,54 +1,80 @@
+import Interfaces.Fight;
+import Interfaces.Skills;
+import Something.ChoiceException;
+
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Scanner;
 
 public class Main {
     public static void main(String[] args) throws IOException {
 
-        Person man1 = new Person();
-        Person man2 = new Person();
+        Person man1 = new Person("Chucky", 12, 8, 25, 0.2);
+        Person man2 = new Person("Bob", 14, 12, 30, 0.1);
 
-        man1.setName("Chucky"); // слабый и ловкий
-        man2.setName("Bob"); // сильный и неуклюжий
+        List<Person> fighters = new ArrayList<>();
+        fighters.add(man1);
+        fighters.add(man2);
 
-        man1.setAge(12);
-        man2.setAge(14);
 
-        man1.setPower(8);
-        man2.setPower(12);
+        for (int i = 0; i < fighters.size(); i++) {
+            System.out.println(fighters.get(i));
+        }
 
-        man1.setHP(25);
-        man2.setHP(30);
 
-        man1.setAgility(0.2);
-        man2.setAgility(0.1);
-
-        man1.areTheyEquals(man2); // сравниваем бойцов
+        man1.equals(man2); // сравниваем бойцов
 
         System.out.println("Выберите бойца:");
-        System.out.println("1: Chucky");
-        System.out.println("2: Bob");
+        System.out.println("1: " + man1.getName());
+        System.out.println("2: " + man2.getName());
+
 
 
         BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
 
+        int chooseFighter = 0;
+        while (true) {
+            try {
 
-        int chooseFighter;
-        do {
-            System.out.println("Введите 1 или 2");
-            chooseFighter = Integer.parseInt(reader.readLine());
-        } while (chooseFighter != 1 && chooseFighter != 2);
+                chooseFighter = Integer.parseInt(reader.readLine());
+                if (chooseFighter != 1 && chooseFighter != 2) {
+                    throw new ChoiceException();
+                }
+            } catch (NumberFormatException | IOException e) {
+                System.out.println("Вы ввели не число");
+            } catch (ChoiceException e) {
+                System.out.println("Вы ввели недопустимое число");
+            }
+            if (chooseFighter == 1 || chooseFighter == 2) {
+                break;
+            }
+        }
 
 
         System.out.println();
         System.out.println("Выберите режим битвы");
         System.out.println("1: Автоматический");
         System.out.println("2: Ручной");
-        int chooseMode;
-        do {
-            System.out.println("Введите 1 или 2");
-            chooseMode = Integer.parseInt(reader.readLine());
-        } while (chooseMode != 1 && chooseMode != 2);
+        int chooseMode = 0;
+        while (true) {
+            try {
+                chooseMode = Integer.parseInt(reader.readLine());
+                if (chooseMode != 1 && chooseMode != 2) {
+                    throw new ChoiceException();
+                }
+            } catch (NumberFormatException | IOException e) {
+                System.out.println("Вы ввели не число");
+            } catch (ChoiceException e) {
+                System.out.println("Вы ввели недопустимое число");
+            }
+            if (chooseMode == 1 || chooseMode == 2) {
+                break;
+            }
+        }
 
         if (chooseMode == 1) {
             if (chooseFighter == 1) {
@@ -61,24 +87,45 @@ public class Main {
         } else {
             if (chooseFighter == 1) { // ручной режим за 1 игрока
                 int r = 1;
-                double kick;
-                int adDamage;
+                double kick = 0;
+                int adDamage = 0;
                 while (man1.getHP() >= 0) {
                     System.out.println("Раунд: " + r);
                     System.out.println("Выберите удар:");
                     System.out.println("1: Джеб");
                     System.out.println("2: Апперкот");
                     System.out.println("3: Хук");
-                    int chooseKick = Integer.parseInt(reader.readLine());
-                    if (chooseKick == 1) {
-                        kick = man1.getAgility() + Math.random();
-                        adDamage = 0;
-                    } else if (chooseKick == 2) {
-                        kick = man1.getAgility() + Math.random() - 0.1;
-                        adDamage = 1;
-                    } else {
-                        kick = man1.getAgility() + Math.random() - 0.2;
-                        adDamage = 2;
+                    if (r%4 == 0) System.out.println("4: Мегапанч");
+                    int chooseKick = 0;
+                    while (true) {
+                        try {
+                            chooseKick = Integer.parseInt(reader.readLine());
+                            if (chooseKick == 1) {
+                                kick = man1.getAgility() + Math.random();
+                                adDamage = 0;
+                            } else if (chooseKick == 2) {
+                                kick = man1.getAgility() + Math.random() - 0.1;
+                                adDamage = 1;
+                            } else if (chooseKick == 3){
+                                kick = man1.getAgility() + Math.random() - 0.2;
+                                adDamage = 2;
+                            } else if (chooseKick == 4 && r%4 == 0){
+                                kick = man1.getAgility() + Math.random();
+                                adDamage = 6;
+                                break;
+                            }
+
+                            if (chooseKick != 1 && chooseKick != 2 && chooseKick !=3) {
+                                throw new ChoiceException();
+                            }
+                        } catch (NumberFormatException | IOException e) {
+                            System.out.println("Вы ввели не число");
+                        } catch (ChoiceException e) {
+                            System.out.println("Вы ввели недопустимое число");
+                        }
+                        if (chooseKick == 1 || chooseKick == 2 || chooseKick == 3) {
+                            break;
+                        }
                     }
                     if (kick > 0.5) {
                         System.out.println("Попал!");
@@ -117,24 +164,45 @@ public class Main {
                 else System.out.println("Вы победили");
             } else { // ручной режим за 2 игрока
                 int r = 1;
-                double kick;
-                int adDamage;
+                double kick = 0;
+                int adDamage = 0;
                 while (man2.getHP() >= 0) {
                     System.out.println("Раунд: " + r);
                     System.out.println("Выберите удар:");
                     System.out.println("1: Джеб");
                     System.out.println("2: Апперкот");
                     System.out.println("3: Хук");
-                    int chooseKick = Integer.parseInt(reader.readLine());
-                    if (chooseKick == 1) {
-                        kick = man2.getAgility() + Math.random();
-                        adDamage = 0;
-                    } else if (chooseKick == 2) {
-                        kick = man2.getAgility() + Math.random() - 0.1;
-                        adDamage = 1;
-                    } else {
-                        kick = man2.getAgility() + Math.random() - 0.2;
-                        adDamage = 2;
+                    if (r%4 == 0) System.out.println("4: Мегапанч");
+                    int chooseKick = 0;
+                    while (true) {
+                        try {
+                            chooseKick = Integer.parseInt(reader.readLine());
+                            if (chooseKick == 1) {
+                                kick = man2.getAgility() + Math.random();
+                                adDamage = 0;
+                            } else if (chooseKick == 2) {
+                                kick = man2.getAgility() + Math.random() - 0.1;
+                                adDamage = 1;
+                            } else if (chooseKick == 3){
+                                kick = man2.getAgility() + Math.random() - 0.2;
+                                adDamage = 2;
+                            } else if (chooseKick == 4 && r%4 == 0){
+                                kick = man2.getAgility() + Math.random();
+                                adDamage = 6;
+                                break;
+                            }
+
+                            if (chooseKick != 1 && chooseKick != 2 && chooseKick !=3) {
+                                throw new ChoiceException();
+                            }
+                        } catch (NumberFormatException | IOException e) {
+                            System.out.println("Вы ввели не число");
+                        } catch (ChoiceException e) {
+                            System.out.println("Вы ввели недопустимое число");
+                        }
+                        if (chooseKick == 1 || chooseKick == 2 || chooseKick == 3) {
+                            break;
+                        }
                     }
                     if (kick > 0.5) {
                         System.out.println("Попал!");
@@ -179,3 +247,4 @@ public class Main {
 
     }
 }
+
